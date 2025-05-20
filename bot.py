@@ -3,6 +3,7 @@ import os
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+from Model.SteamGames import SteamGames
 
 load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
@@ -29,4 +30,34 @@ async def on_message(message):
 async def ping_command(interaction: discord.Interaction):
     await interaction.response.send_message("Pong")
 
+@client.tree.command(name="price", description="Récupérer les infos sur un jeu Steam")
+async def price_command(interaction: discord.Interaction, game_id: int):
+    game = SteamGames(game_id)
+    game_info = game.getInfo()
+
+
+    if game_info is False:
+        await interaction.response.send_message("Ce jeu n'éxiste pas.")
+    elif float(game_info[0]) > 0:
+        embed = discord.Embed(
+            title=f"🎮 {game_info[1]}",
+            description= "Informations sur " + game_info[1] + " ⬇️",
+            color=discord.Color.brand_red()
+        )
+        embed.add_field(name="💰 Prix", value=f"{game_info[0]} €", inline=False)
+        embed.add_field(name="🔥 Réduction", value=f"{game_info[2]}", inline=True)
+        embed.add_field(name="🏷️ Prix après réduction", value=f"{game_info[3]}", inline=True)
+        #embed.set_footer(text="Footer text")
+
+        await interaction.response.send_message(embed=embed)
+    else:
+        embed = discord.Embed(
+            title=f"🎮 {game_info[1]}",
+            description= "Informations sur " + game_info[1] + " ⬇️",
+            color=discord.Color.brand_red()
+        )
+        embed.add_field(name="🏷️ Test", value="cc", inline=True)
+        embed.set_footer(text="Données récupérées via Steam API")
+
+        await interaction.response.send_message(embed=embed)
 client.run(TOKEN)
