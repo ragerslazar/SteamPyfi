@@ -15,13 +15,13 @@ class SteamGames:
         response = requests.get(url).json()
         print(response)
         if response[self.game_id]["success"] is True:
-            game = response[self.game_id]["Model"]["name"]
-            if response[self.game_id]["Model"]["is_free"] is False:
-                self.price = (response[self.game_id]["Model"]["price_overview"]["initial"]) / 100
+            game = response[self.game_id]["data"]["name"]
+            if response[self.game_id]["data"]["is_free"] is False:
+                self.price = (response[self.game_id]["data"]["price_overview"]["initial"]) / 100
 
-                if response[self.game_id]["Model"]["price_overview"]["discount_percent"] > 0:
-                    self.discount = str(response[self.game_id]["Model"]["price_overview"]["discount_percent"]) + "%"
-                    self.price_after_discount = response[self.game_id]["Model"]["price_overview"]["final_formatted"]
+                if response[self.game_id]["data"]["price_overview"]["discount_percent"] > 0:
+                    self.discount = str(response[self.game_id]["data"]["price_overview"]["discount_percent"]) + "%"
+                    self.price_after_discount = response[self.game_id]["data"]["price_overview"]["final_formatted"]
                 else:
                     self.discount = "Aucune réduction"
                     self.price_after_discount = "N/A"
