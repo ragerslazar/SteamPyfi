@@ -1,2 +1,3 @@
 .env
 /.idea
+/Model/__pycache__
