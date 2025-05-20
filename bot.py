@@ -42,8 +42,9 @@ async def price_command(interaction: discord.Interaction, game_id: int):
         embed = discord.Embed(
             title=f"🎮 {game_info[1]}",
             description= "Informations sur " + game_info[1] + " ⬇️",
-            color=discord.Color.brand_red()
+            color=discord.Color.random()
         )
+        embed.set_thumbnail(url="https://i.ibb.co/bMHxWb66/steam.jpg")
         embed.add_field(name="💰 Prix", value=f"{game_info[0]} €", inline=False)
         embed.add_field(name="🔥 Réduction", value=f"{game_info[2]}", inline=True)
         embed.add_field(name="🏷️ Prix après réduction", value=f"{game_info[3]}", inline=True)
@@ -54,10 +55,10 @@ async def price_command(interaction: discord.Interaction, game_id: int):
         embed = discord.Embed(
             title=f"🎮 {game_info[1]}",
             description= "Informations sur " + game_info[1] + " ⬇️",
-            color=discord.Color.brand_red()
+            color=discord.Color.random()
         )
         embed.add_field(name="🏷️ Test", value="cc", inline=True)
-        embed.set_footer(text="Données récupérées via Steam API")
+        #embed.set_footer(text="Footer text")
 
         await interaction.response.send_message(embed=embed)
 client.run(TOKEN)
